@@ -1,0 +1,5 @@
+*.DS_Store
+credentials.json
+token.yaml
+.byebug_history
+client_hours.json
