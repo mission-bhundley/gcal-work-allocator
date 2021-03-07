@@ -4,13 +4,29 @@ require "googleauth/stores/file_token_store"
 require "date"
 require "fileutils"
 
-CREDENTIALS_PATH = "credentials.json".freeze
+APPLICATION_NAME = 'Google Calendar Work Allocator'
+CREDENTIALS_PATH = "config/credentials.json".freeze
 OOB_URI = "urn:ietf:wg:oauth:2.0:oob".freeze
 # The file token.yaml stores the user's access and refresh tokens, and is
 # created automatically when the authorization flow completes for the first
 # time.
-TOKEN_PATH = "token.yaml".freeze
-SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
+TOKEN_PATH = "config/token.yaml".freeze
+SCOPE = [
+  Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY,
+  Google::Apis::CalendarV3::AUTH_CALENDAR_EVENTS
+]
+
+
+require 'ruby-limiter'
+
+class RateLimitedService < Google::Apis::CalendarV3::CalendarService
+  extend Limiter::Mixin
+
+  # 5 reqs / sec
+  limit_method :insert_event, rate: 5, interval: 1
+  limit_method :delete_event, rate: 5, interval: 1
+end
+
 
 ##
 # Ensure valid credentials, either by restoring from the saved credentials
@@ -34,4 +50,12 @@ def authorize
     )
   end
   credentials
+end
+
+def new_google_calendar_client
+  # Initialize the API
+  RateLimitedService.new.tap do |service|
+    service.client_options.application_name = APPLICATION_NAME
+    service.authorization = authorize
+  end
 end
