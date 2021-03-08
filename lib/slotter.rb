@@ -42,7 +42,7 @@ class Slotter
 
   MAX_SLOT_SIZE_HOURS = MAX_SLOT_HOUR - MIN_SLOT_HOUR
 
-  def initialize(num_slots, slot_size_hours, start_datestr, offset_str)
+  def initialize(num_slots, slot_size_hours, start_time, offset_str)
 
     real_min_slot_hour = MAX_SLOT_HOUR - slot_size_hours
     # TODO -- is there a more precise way to determine this?
@@ -56,10 +56,11 @@ class Slotter
     end
 
 
-    slot_boundary_start = Time.parse("#{start_datestr}T#{'%02d' % MIN_SLOT_HOUR}:00:00#{offset_str}")
-    slot_boundary_end = Time.parse("#{start_datestr}T#{'%02d' % MAX_SLOT_HOUR}:00:00#{offset_str}")
 
-    first_time_marker = Time.parse("#{start_datestr}T#{'%02d' % real_min_slot_hour}:00:00#{offset_str}")
+    slot_boundary_start = parse_time_with_offset(start_time, offset_str, MIN_SLOT_HOUR)
+    slot_boundary_end = parse_time_with_offset(start_time, offset_str, MAX_SLOT_HOUR)
+
+    first_time_marker = parse_time_with_offset(start_time, offset_str, real_min_slot_hour)
     @slot_marker = 0
     @slots = num_slots.times.map do |i|
       Slot.new(slot_size_hours, slot_boundary_start + i * DAY, slot_boundary_end + i * DAY, first_time_marker + i * DAY)

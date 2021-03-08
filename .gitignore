@@ -1,4 +1,4 @@
-*.DS_Store
+**/*.DS_Store
 .byebug_history
 config/config.yaml
 config/credentials.json

@@ -9,4 +9,4 @@ gem "ruby-limiter"
 gem "thor"
 gem "ansi"
 
-gem "byebug"
+gem "byebug", :group => :development

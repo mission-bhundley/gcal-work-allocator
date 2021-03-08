@@ -14,7 +14,17 @@ class WorkWeek
 
 
     @service = service
-    time = date ? Time.parse(date) : Time.now
+
+    @time_zone = @service.get_calendar(@calendar_id).time_zone
+
+    offset = TZInfo::Timezone.get(@time_zone).utc_offset / HOUR
+    @offset_str = '%+.2d:00' % offset
+
+
+
+
+
+    time = date ? parse_datestr_with_offset(date, @offset_str) : now_with_offset(@offset_str)
 
 
 
@@ -22,17 +32,10 @@ class WorkWeek
 
 
 
-    @time_zone = @service.get_calendar(@calendar_id).time_zone
-
-    offset = TZInfo::Timezone.get(@time_zone).utc_offset
-    offset_prefix = offset >= 0 ? '+' : ''
-    @offset_str = "#{offset_prefix}#{offset}"
-
-
     @outer_start_time = time - time.wday * DAY
-    @outer_start_time = Time.parse("#{time_datestr(@outer_start_time)}T00:00:00#{@offset_str}")
+    @outer_start_time = parse_time_with_offset(@outer_start_time, @offset_str)
     @outer_end_time = time + (6 - time.wday) * DAY
-    @outer_end_time = Time.parse("#{time_datestr(@outer_end_time)}T23:59:59#{@offset_str}")
+    @outer_end_time = parse_time_with_offset(@outer_end_time, @offset_str, 23, 59, 59)
 
 
     # "outer" includes days of the week outside the work days
@@ -66,7 +69,7 @@ class WorkWeek
   def initialize_planning_slots(total_hours)
     num_slots = WEEK_DAYS.size
     slot_hours_per_day = round_to_quarter(total_hours / num_slots.to_f, :ceil)
-    Slotter.new(num_slots, slot_hours_per_day, time_datestr(@start_time), @offset_str)
+    Slotter.new(num_slots, slot_hours_per_day, @start_time, @offset_str)
   end
 
   private

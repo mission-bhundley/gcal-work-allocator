@@ -31,3 +31,15 @@ def printable_calendar_event(e)
   "  - " +
   end_time.strftime('%l:%M%p')
 end
+
+def parse_datestr_with_offset(datestr, offset_str, hour=0, min=0, sec=0)
+  Time.parse("#{datestr}T#{'%02d' % hour}:#{'%02d' % min}:#{'%02d' % sec}#{offset_str}")
+end
+
+def parse_time_with_offset(time, offset_str, hour=0, min=0, sec=0)
+  parse_datestr_with_offset(time_datestr(time), offset_str, hour, min, sec)
+end
+
+def now_with_offset(offset_str)
+  parse_time_with_offset(Time.now, offset_str)
+end

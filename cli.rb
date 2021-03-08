@@ -6,13 +6,13 @@ require_relative 'lib/google_calendar_client'
 require_relative 'lib/work_week'
 require_relative 'lib/allocator'
 
-# CONFIG_PATH = 'config/config.yaml'
+CONFIG_PATH = File.expand_path('../config/config.yaml', __FILE__)
 
 require 'thor'
 
 class CLI < Thor
   desc "allocate", "Allocate work events."
-  option :config, banner: "<config-file>", type: "string", aliases: ["c"], required: true
+  option :config, banner: "<config-file>", type: "string", aliases: ["c"], default: CONFIG_PATH
   option :date, banner: "<date>", type: "string", aliases: ["d"]
   long_desc <<-EOF
     Allocates "working time" events for projects to a Google calendar for a single week.
@@ -31,7 +31,7 @@ class CLI < Thor
   end
 
   desc "scrub", "Delete unused work events."
-  option :config, banner: "<config-file>", type: "string", aliases: ["c"], required: true
+  option :config, banner: "<config-file>", type: "string", aliases: ["c"], default: CONFIG_PATH
   option :date, banner: "<date>", type: "string", aliases: ["d"]
   long_desc <<-EOF
     Deletes "working time" events from a Google calendar for a single week.
