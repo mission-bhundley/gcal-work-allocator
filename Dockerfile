@@ -7,6 +7,8 @@ WORKDIR /code
 # For timezone lib
 RUN apk add --update tzdata
 
+RUN apk add dumb-init
+
 RUN bundle install --without=development
 
-ENTRYPOINT ["/code/bin/workplanner"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "/code/bin/workplanner"]
