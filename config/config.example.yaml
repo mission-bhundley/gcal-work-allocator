@@ -10,6 +10,7 @@ color_hexes:
 projects:
   - name: Client A
     hours_per_month: 30
+    # Percentage of the project hours you work (out of your team)
     work_share: 0.3
     # For things like calls -- e.g. a 1 hour call each week with a client
     pre_booked_hours_per_week: 1
@@ -22,29 +23,4 @@ projects:
   - name: Client C
     hours_per_month: 30
     work_share: 0.5
-    pre_booked_hours_per_week: 0.5
-
-  - name: Client D
-    hours_per_month: 40
-    work_share: 0.5
-    pre_booked_hours_per_week: 1
-
-  - name: Client E
-    hours_per_month: 30
-    work_share: 0.3
-    pre_booked_hours_per_week: 0.5
-
-  - name: Client F
-    hours_per_month: 30
-    work_share: 0.3
-    pre_booked_hours_per_week: 1
-
-  - name: Client G
-    hours_per_month: 20
-    work_share: 0.1
-    pre_booked_hours_per_week: 0.25
-
-  - name: Client H
-    hours_per_month: 20
-    work_share: 0.3
     pre_booked_hours_per_week: 0.5
