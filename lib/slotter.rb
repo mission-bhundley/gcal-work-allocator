@@ -43,19 +43,15 @@ class Slotter
   MAX_SLOT_SIZE_HOURS = MAX_SLOT_HOUR - MIN_SLOT_HOUR
 
   def initialize(num_slots, slot_size_hours, start_time, offset_str)
-
     real_min_slot_hour = MAX_SLOT_HOUR - slot_size_hours
     # TODO -- is there a more precise way to determine this?
     # Add extra padding to each slot to account for weird packing issues
     real_min_slot_hour -= 0.25
     slot_size_hours += 0.25
 
-
     if slot_size_hours > MAX_SLOT_SIZE_HOURS
       raise "Cannot fit slot of size #{slot_size_hours} hours into maximum of #{MAX_SLOT_SIZE_HOURS} hours"
     end
-
-
 
     slot_boundary_start = parse_time_with_offset(start_time, offset_str, MIN_SLOT_HOUR)
     slot_boundary_end = parse_time_with_offset(start_time, offset_str, MAX_SLOT_HOUR)

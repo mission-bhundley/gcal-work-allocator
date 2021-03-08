@@ -66,19 +66,3 @@ end
 ENV['THOR_SILENCE_DEPRECATION'] = 'true'
 
 CLI.start(ARGV)
-
-
-# case ARGV[0]
-#
-# when 'allocate'
-#   if allocator.slotted_work.any?
-#     raise "Already have slotted work. Use the `scrub` command to wipe first."
-#   end
-#   allocator.allocate_work
-#
-# when 'scrub'
-#   allocator.clear_slotted_work
-#
-# else
-#   raise "Only know how to allocate, scrub"
-# end

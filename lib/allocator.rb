@@ -50,14 +50,12 @@ class Allocator
       end
     end
 
-
     # Insert events
     events.each do |e|
       puts ANSI.green { 'ADD' } + "\t#{printable_calendar_event(e)}"
       @service.insert_event(@calendar_id, e)
     end
   end
-
 
 
   def slotted_work
@@ -72,8 +70,6 @@ class Allocator
       @service.delete_event(@calendar_id, e.id)
     end
   end
-
-
 
 
   private

@@ -21,15 +21,10 @@ class WorkWeek
     @offset_str = '%+.2d:00' % offset
 
 
-
-
-
     time = date ? parse_datestr_with_offset(date, @offset_str) : now_with_offset(@offset_str)
 
 
-
     @weeks_this_month = weeks_in_month(time)
-
 
 
     @outer_start_time = time - time.wday * DAY
